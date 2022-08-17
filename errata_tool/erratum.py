@@ -946,10 +946,9 @@ https://access.redhat.com/articles/11258")
 
             # Update buglist if it changed
             # Errata tool is very slow - don't PUT if it hasn't changed
-            allbugs = list(set(self.errata_bugs) | set(
-                self._cve_bugs) | set(self.jira_issues))
-            if sorted(self._original_bugs + self._original_jira_issues) != sorted(allbugs) \
-               or self._update:
+            current_bugs = set(self.errata_bugs + self._cve_bugs + self.jira_issues)
+            original_bugs = set(self._original_bugs + self._original_jira_issues)
+            if original_bugs != current_bugs or self._update:
                 self._write()
                 # self.syncBugs() # RHOS shale only
                 ret = True
